@@ -3,6 +3,10 @@ import './App.css'
 import authService from './appwrite/auth.js'
 import { login, logout } from './store/authSlice'
 import { useDispatch } from 'react-redux'
+import { Outlet } from 'react-router-dom'
+import { Header  , Footer} from './components/index.js'
+
+
 
 function App() {
   const [loading , setLoading ] = useState(true)
@@ -18,8 +22,8 @@ useEffect(()=>{
    ) 
 } , [])
   return  !loading ?(
-    <div className='min-h-screen flex flex-wrap content-between
-    bg-gray-200 '>
+    <div className='  bg-pink-500 h-full flex flex-wrap content-between
+   '>
       <div>
         <Header/>
         <main>
