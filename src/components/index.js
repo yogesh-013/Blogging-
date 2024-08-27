@@ -8,6 +8,9 @@ import Input from "./Input.jsx";
 import Select from "./Select.jsx";
 import PostCard from "./PostCard.jsx";
 import RTE from "./RTE.jsx";
+import Signup from "./Signup.jsx";
+import Login from "./Login.jsx";
+import Postform from "./postform/postform.jsx";
 export {
     Header , 
     Footer , 
@@ -18,5 +21,8 @@ export {
     Input , 
     Select , 
     PostCard , 
-    RTE
+    RTE , 
+    Signup , 
+    Login , 
+    Postform 
 }

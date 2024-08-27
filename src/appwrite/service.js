@@ -86,7 +86,7 @@ export class Service{
 
    //////////////file upload ////////////////
 
-async uploadFiles(file){
+async uploadFile(file){
  try {
      return await this.bucket.createFile(
        conf.appwrite_bucket_id , 
@@ -98,7 +98,7 @@ async uploadFiles(file){
     return false
  }
 }
-async deleteFiles(fileId){
+async deleteFile(fileId){
    try {
      await this.bucket.deleteFile(
         conf.appwrite_bucket_id  , 
