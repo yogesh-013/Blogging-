@@ -9,7 +9,7 @@ import { Header  , Footer} from './components/index.js'
 
 
 function App() {
-  const [loading , setLoading ] = useState(true)
+  const [loading , setLoading ] = useState(false)
 const dispatch = useDispatch()
 
 

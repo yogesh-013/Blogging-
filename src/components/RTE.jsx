@@ -4,12 +4,13 @@ import { Editor } from '@tinymce/tinymce-react'
 function RTE({name , control , label , defaultValue = ""}) {
   return (
     <div className='w-full'>
-      {label && <label className='text-sm text-gray-600'>
+      {label && <label className='inline-block mb-1 pl-1'>
     {label}</label>}
-    <Controller name = {name}
+    <Controller name = {name || "content"}
     control = {control}
-    render = {({field : {onChange}})=>{
+    render = {({field : {onChange}})=>(
         <Editor
+        apiKey='mhzesbb5vod16bov5e662z4shoia4uz1pbzzg4dodksxp4jl'
         initialValue={defaultValue}
         init={{
             initialValue: defaultValue,
@@ -43,7 +44,7 @@ function RTE({name , control , label , defaultValue = ""}) {
         }}
         onEditorChange={onChange}
         />  
-    }}
+  )}
     />
     </div>
   )

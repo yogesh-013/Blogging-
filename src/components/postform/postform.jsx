@@ -6,7 +6,7 @@ import service from '../../appwrite/service.js'
 import { useForm } from 'react-hook-form'
 function Postform({post}) {
   const  navigate = useNavigate()
-  const {error , setError} = useState("")
+  const [error , setError] = useState("")
   const {register , handleSubmit , watch , setValue
     , control , getValues
   } = useForm({
@@ -37,7 +37,9 @@ function Postform({post}) {
           navigate(`/post/${dbPost.$id}`)
          }
         }else{
-          const file =  await  data.image[0]? service.uploadFile(data.image[0]) : null 
+          console.log(data);
+          
+          const file =  await  data.image.name? service.uploadFile(data.image.name) : null 
           if(file){
          const dbPost =   await  service.createPost({...data , featuredImage : file.$id , 
             userId : userData.$id
@@ -87,7 +89,7 @@ return ()=>{
                 setValue("slug", slugTransform(e.currentTarget.value), { shouldValidate: true });
             }}
         />
-        <RTE label="Content :" name="content" control={control} defaultValue={getValues("content")} />
+        <RTE label="Content : " name="content" control={control} defaultValue={getValues("content")} />
     </div>
     <div className="w-1/3 px-2">
         <Input
