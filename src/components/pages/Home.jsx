@@ -21,6 +21,9 @@ function Home() {
                         <div className="p-2 w-full">
                             <h1 className="text-2xl font-bold hover:text-gray-500">
                                 No Posts to show
+
+                                
+
                             </h1>
                         </div>
                     </div>

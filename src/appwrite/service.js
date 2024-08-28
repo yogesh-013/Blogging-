@@ -7,7 +7,7 @@ export class Service{
    constructor(){
     this.client.setEndpoint(conf.appwriteUrl)
     .setProject(conf.appwrite_project_id)
-    this.databases = new Databases(client)
+    this.databases = new Databases(this.client)
 
    }
    async createPost({title , slug , content , featuredImage , status , userId}){

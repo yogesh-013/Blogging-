@@ -11,6 +11,12 @@ import { Header  , Footer} from './components/index.js'
 function App() {
   const [loading , setLoading ] = useState(true)
 const dispatch = useDispatch()
+
+
+
+
+
+
 useEffect(()=>{
    authService.getCurrentUser().then((userData)=>{
      if(userData){
@@ -22,19 +28,33 @@ useEffect(()=>{
    ) 
 } , [])
   return  !loading ?(
-    <div className='  bg-pink-500 h-full flex flex-wrap content-between
-   '>
-      <div>
-        <Header/>
+    <div className='min-h-screen flex flex-wrap content-between  bg-cover bg-center bg-no-repeat bg-blue-600 ' style={{
+      backgroundImage: 'url(img/back_image.jpeg)'
+    }}>
+      <div className='w-full block'>
+        <Header />
         <main>
-        <Outlet/>
+       <Outlet />
         </main>
-       
-        <Footer/>
+        <Footer />
       </div>
     </div>
+   
   ):(
-    <h1>Loading.....</h1>
+    <div className="flex justify-center items-center h-screen w-screen bg-gray-100">
+    <div className="max-w-md mx-auto p-4 bg-white rounded-lg shadow-md">
+      <div className="flex justify-center mb-4">
+        <div className="spinner-border animate-spin inline-block w-8 h-8 border-4 rounded-full text-gray-600" role="status">
+          <span className="sr-only">Loading...</span>
+        </div>
+      </div>
+      <div className="text-lg font-bold text-gray-600 mb-2">Loading...</div>
+      <div className="text-gray-500 mb-4">Please wait while we load the application.</div>
+      <div className="progress-bar bg-gray-200 h-2 rounded-full mb-4">
+        <div className="progress-bar-value bg-blue-500 h-2 rounded-full" style={{ width: '50%' }}></div>
+      </div>
+    </div>
+  </div>
   )
 }
 

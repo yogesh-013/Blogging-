@@ -5,15 +5,18 @@ import { login as authLogin } from '../store/authSlice.js'
 import {Button , Input , Logo} from './index.js'
 import { useDispatch } from 'react-redux'
 import { useForm } from 'react-hook-form'
-import { useState } from 'react'
+
 function Login() {
     const navigate = useNavigate() 
     const dispatch = useDispatch() 
     const {register, handleSubmit} = useForm()
-    const {error , setError } = useState("")
+    const [error, setError] = useState("")
     const login = async (data)=>{
-    setError("")
+      console.log(data);
+      
+ setError("")
     try {
+         
       const session =   await authService.loginUser(data)
       if(session){
       const userData = await authService.getCurrentUser()
@@ -23,12 +26,13 @@ function Login() {
       }
       }
     } catch (error) {
+      console.log(error);
      setError(error.message)   
     }
     }
   return (
-    <div className='flex items-center justify-center w-full'>
-      <div className = {`mx-auto w-full max-w-lg bg-gray-100 rounded-xl p-10 border border-black/10`}>
+    <div className='flex items-center justify-center w-full '>
+      <div className = {`mx-auto w-full max-w-lg  rounded-xl p-10 border border-black/10 bg-blue-300`}>
       <div className= 'mb-2 flex justify-center'>
       <span className="inline-block w-full max-w-[100px]">
                         <Logo width="100%" />
@@ -61,13 +65,9 @@ function Login() {
                 />
                 <Input label = "Password : " 
                 placeholder = "Enter your password" 
-                type = "password" 
+                type= "password" 
                 {...register("password" , {
-                    required : true , 
-                    minLength : {
-                        value : 8 , 
-                        message : "Password should be of length greater than 8 "
-                    }
+                    required : true ,    
                 })}
                 />
             <Button type = "submit"

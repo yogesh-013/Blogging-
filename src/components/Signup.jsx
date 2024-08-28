@@ -9,12 +9,14 @@ function Signup() {
     const navigate = useNavigate()
     const dispatch = useDispatch()
     const {register , handleSubmit} = useForm()
-    const {error , setError } = useState("")
+    const [error , setError ] = useState("")
     const signup = async (data)=>{
         setError("")
         try {
-            
+      
           const session = await  authService.createAccount(data)
+          console.log(session);
+          
           if(session){
             const userData = await  authService.getCurrentUser()
             if(userData){
@@ -23,13 +25,16 @@ function Signup() {
             }
           }
         } catch (error) {
+          console.log(error);
+          
             setError(error.message)
+
         }
     }
 
   return (
     <div className="flex items-center justify-center">
-      <div className={`mx-auto w-full max-w-lg bg-gray-100 rounded-xl p-10 border border-black/10`}>
+      <div className={`mx-auto w-full max-w-lg bg-blue-300 rounded-xl p-10 border border-black/10`}>
             <div className="mb-2 flex justify-center">
                     <span className="inline-block w-full max-w-[100px]">
                         <Logo width="100%" />
@@ -54,7 +59,7 @@ function Signup() {
                       required : true 
                     })}/>
                       <Input label = "Email : "
-                placeholder = "Enter your Email***"
+                placeholder = "Enter your Email "
                 type  = "email" 
                 {...register("email" , {
                     required : true  ,
@@ -69,10 +74,7 @@ function Signup() {
                 type = "password" 
                 {...register("password" , {
                     required : true , 
-                    minLength : {
-                        value : 8 , 
-                        message : "Password should be of length greater than 8 "
-                    }
+                   
                 })}
                 />
                 <Button type = "submit" 

@@ -7,20 +7,23 @@ export class AuthService{
         this.client.setEndpoint(conf.appwriteUrl).setProject(conf.appwrite_project_id)
         this.account = new Account(this.client)
     }
-    async createAccount(email , password , username){
+    async createAccount({email , password , username}){
        try {
         const userAccount =  await this.account.create(ID.unique , email , password , username)
+        console.log("User Account : " , userAccount);
+        
         if(userAccount){
-            return this.loginUser(email , password)
+            return this.loginUser({email , password})
         }else{
-            return null 
+            return userAccount 
         }
        } catch (error) {
+        console.log(error)
         throw error 
        }
     }
     
-    async loginUser(email , password){
+    async loginUser({email , password}){
         try {
             const loggedInUser = await this.account.createEmailPasswordSession(email , password)
             if(loggedInUser){
@@ -35,10 +38,8 @@ export class AuthService{
     }
     async getCurrentUser(){
        try {
-        const getAccount =  await this.account.get() 
-        if(getAccount){
-            return getAccount 
-        }
+        return  await this.account.get() 
+        
        } catch (error) {
         console.log("Error in get Current User in Appwrite" , error)
         return null 
