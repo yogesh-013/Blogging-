@@ -1,9 +1,9 @@
-import React, { useState } from 'react'
+import React, { useState , useEffect } from 'react'
 import {Container , Postform} from '../index.js'
 import service from '../../appwrite/service.js'
 import { useNavigate, useParams } from 'react-router-dom'
 function EditPost() {
-    const {post , setPosts} = useState(null)
+    const [post , setPosts]= useState(null)
     const {slug} = useParams()
     const navigate = useNavigate()
     useEffect(() => {

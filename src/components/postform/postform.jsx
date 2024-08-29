@@ -3,12 +3,14 @@ import { Input , Button , Select , RTE} from '../index.js'
 import { useNavigate } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import service from '../../appwrite/service.js'
+import authService from '../../appwrite/auth.js'
 import { useForm } from 'react-hook-form'
 function Postform({post}) {
   const  navigate = useNavigate()
   const [error , setError] = useState("")
   const {register , handleSubmit , watch , setValue
-    , control , getValues
+    , control , getValues , 
+    formState: { isSubmitting }
   } = useForm({
     defaultValues : {
     title : post?.title||'' , 
@@ -17,6 +19,7 @@ function Postform({post}) {
      slug : post?.slug|| '' 
 }})
     const userData = useSelector(state=>state.auth.userData)
+    const statuss = useSelector(state => state.auth.status)
     const submit =  async (data)=>{
       setError("")
       try {
@@ -37,20 +40,31 @@ function Postform({post}) {
           navigate(`/post/${dbPost.$id}`)
          }
         }else{
-          console.log(data);
+         
+          const m = await authService.getCurrentUser()
+          console.log(m);
           
-          const file =  await  data.image.name? service.uploadFile(data.image.name) : null 
-          if(file){
-         const dbPost =   await  service.createPost({...data , featuredImage : file.$id , 
-            userId : userData.$id
-           })
-           if(dbPost){
-               navigate(`/post/${dbPost.$id}`)
-           }
-          }
+          
+          
+          console.log(userData);
+          console.log(statuss);
+          
+          const file = await service.uploadFile(data.image[0]);
+
+            if (file) {
+                const fileId = file.$id;
+                data.featuredImage = fileId;
+                const dbPost = await service.createPost({ ...data, userId: userData.$id });
+
+                if (dbPost) {
+                    navigate(`/post/${dbPost.$id}`);
+                }
+            }
   
         }
     } catch (error) {
+      console.log(error);
+      
       setError(error.message)
     }
     }
@@ -72,8 +86,24 @@ return ()=>{
 }
     } , [watch , slugTransform , setValue ])
   return (
+   
     <form onSubmit={handleSubmit(submit)} className="flex flex-wrap">
-    <div className="w-2/3 px-2">
+       {isSubmitting ? ( <div className="flex justify-center items-center h-screen w-screen bg-gray-100">
+    <div className="max-w-md mx-auto p-4 bg-white rounded-lg shadow-md">
+      <div className="flex justify-center mb-4">
+        <div className="spinner-border animate-spin inline-block w-8 h-8 border-4 rounded-full text-gray-600" role="status">
+          <span className="sr-only">Loading...</span>
+        </div>
+      </div>
+      <div className="text-lg font-bold text-gray-600 mb-2">Loading...</div>
+      <div className="text-gray-500 mb-4">Please wait while we load the application.</div>
+      <div className="progress-bar bg-gray-200 h-2 rounded-full mb-4">
+        <div className="progress-bar-value bg-blue-500 h-2 rounded-full" style={{ width: '50%' }}></div>
+      </div>
+    </div>
+  </div>):(
+      <>
+        <div className="w-2/3 px-2">
         <Input
             label="Title :"
             placeholder="Title"
@@ -84,6 +114,7 @@ return ()=>{
             label="Slug :"
             placeholder="Slug"
             className="mb-4"
+            
             {...register("slug", { required: true })}
             onInput={(e) => {
                 setValue("slug", slugTransform(e.currentTarget.value), { shouldValidate: true });
@@ -117,7 +148,9 @@ return ()=>{
         <Button type="submit" bgColor={post ? "bg-green-500" : undefined} className="w-full">
             {post ? "Update" : "Submit"}
         </Button>
-    </div>
+    </div></>
+       )}
+  
 </form>
   )
 }

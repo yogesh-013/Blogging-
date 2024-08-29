@@ -28,12 +28,12 @@ useEffect(()=>{
    ) 
 } , [])
   return  !loading ?(
-    <div className='min-h-screen flex flex-wrap content-between  bg-cover bg-center bg-no-repeat bg-blue-600 ' style={{
+    <div className='flex flex-col min-h-screen content-between  bg-cover bg-center bg-no-repeat  ' style={{
       backgroundImage: 'url(img/back_image.jpeg)'
     }}>
       <div className='w-full block'>
         <Header />
-        <main>
+        <main className='flex-grow'>
        <Outlet />
         </main>
         <Footer />

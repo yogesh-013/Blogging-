@@ -8,6 +8,7 @@ export class Service{
     this.client.setEndpoint(conf.appwriteUrl)
     .setProject(conf.appwrite_project_id)
     this.databases = new Databases(this.client)
+    this.bucket = new Storage(this.client)
 
    }
    async createPost({title , slug , content , featuredImage , status , userId}){
@@ -87,11 +88,12 @@ export class Service{
    //////////////file upload ////////////////
 
 async uploadFile(file){
+  
  try {
      return await this.bucket.createFile(
        conf.appwrite_bucket_id , 
        ID.unique() , 
-       file
+       file 
      )
  } catch (error) {
     console.log("Appwrite error :: uploadFile ::" , error)
@@ -110,9 +112,14 @@ async deleteFile(fileId){
     return false 
    }
 }
-async getFilePreview(fileId){
+ getFilePreview(fileId){
   try {
-    return await this.bucket.getFilePreview(
+    console.log(this.bucket.getFilePreview(
+      conf.appwrite_bucket_id , 
+      fileId
+    ))
+    
+    return  this.bucket.getFilePreview(
       conf.appwrite_bucket_id , 
       fileId
     )
