@@ -29,7 +29,7 @@ useEffect(()=>{
 } , [])
   return  !loading ?(
     <div className='flex flex-col min-h-screen content-between  bg-cover bg-center bg-no-repeat ' style={{
-      backgroundImage: 'url(img/back_image.jpeg) '
+      backgroundImage: 'url(public/img/back_image.jpeg) '
     }}>
       <div className='w-full block'>
         <Header />
